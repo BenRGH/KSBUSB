@@ -16,7 +16,7 @@ typedef struct sCONTROL sCONTROLRecord;
 // https://wiki.kerbalspaceprogram.com/wiki/Key_bindings
 const int numberOfSwitches = 6;
 sCONTROLRecord sCONTROLS[numberOfSwitches] = {
-  {false, 2, 0},   // Launch Lock - NO KEY, FALSE PREVENTS STAGE
+  {false, 2, 0},   // Launch Lock - NO KEY, TRUE PREVENTS STAGE
   {false, 3, 115}, // SAS
   {false, 4, 114}, // RCS
   {false, 5, 98},  // Breaks
@@ -114,8 +114,8 @@ void sCheckControl(byte index, sCONTROL thisSwitch){
     Keyboard.write(thisSwitch.key); // press key
     sCONTROLS[index].status = true; // change status of switch to active
     
-    Serial.print("switch on: "); // debug
-    Serial.println(thisSwitch.key);
+//    Serial.print("switch on: "); // debug
+//    Serial.println(thisSwitch.key);
     
     if(thisSwitch.key == 98) {
       // for toggle breaks to work needs the mod https://github.com/severedsolo/DoubleTapBrakes/releases
@@ -127,8 +127,8 @@ void sCheckControl(byte index, sCONTROL thisSwitch){
     sCONTROLS[index].status = false; // has been disactivated
     Keyboard.write(thisSwitch.key); // press key
     
-    Serial.print("switch off: "); // debug
-    Serial.println(thisSwitch.key);
+//    Serial.print("switch off: "); // debug
+//    Serial.println(thisSwitch.key);
 
     if(thisSwitch.key == 98) {
       // for toggle breaks to work needs the mod https://github.com/severedsolo/DoubleTapBrakes/releases
@@ -150,14 +150,14 @@ void bCheckControl(byte index, short pinVal, bCONTROL thisButton){
       
       bCONTROLS[index].status = true;
       
-      Serial.println(thisButton.key); // debug
-      Serial.println(": button pressed");
+//      Serial.println(thisButton.key); // debug
+//      Serial.println(": button pressed");
       
       Keyboard.write(thisButton.key);  
     }
     
   } else {
-    // it's not this button so disactivate
+    // it's not this button so deactivate
     bCONTROLS[index].status = false;
   }
 }
