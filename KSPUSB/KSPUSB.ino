@@ -46,6 +46,10 @@ bCONTROLRecord bCONTROLS[6] = {
   {false, 38, 42, 8},  // Abort
 };
 
+// LEDs
+const byte LLGreenPin = 8;
+const byte LLRedPin = 9;
+
 void setup() {
   // Button pin
   // pullup resistor so it goes high unless connected to ground, CHECK IT CAN HANDLE ALL THESE !!!
@@ -59,6 +63,10 @@ void setup() {
   // Interfacing
   Serial.begin(9600); // debug
   Keyboard.begin();
+
+  // LEDs
+  pinMode(LLGreenPin, OUTPUT);
+  pinMode(LLRedPin, OUTPUT);
 }
 
 void loop() {
@@ -74,6 +82,21 @@ void loop() {
   for(byte i = 0; i < numberOfButtons; i++){
     bCheckControl(i, pinVal, bCONTROLS[i]);
     // anytime the value is outside all of the ranges it will be ignored
+  }
+
+  // set led states
+  // (outside input loops just for tidiness)
+  if (sCONTROLS[0].status == true) {
+    // if LL is on (can't launch) show red
+    digitalWrite(LLRedPin, HIGH);
+    digitalWrite(LLGreenPin, LOW);
+
+//    Serial.println("LL is on!"); // debug
+  } else {
+    digitalWrite(LLRedPin, LOW);
+    digitalWrite(LLGreenPin, HIGH);
+
+//    Serial.println("LL is off!"); // debug
   }
 }
 
@@ -121,9 +144,9 @@ void bCheckControl(byte index, short pinVal, bCONTROL thisButton){
   if(pinVal >= thisButton.lowerTrigger && pinVal <= thisButton.upperTrigger){
     // it's this button
 
-    if(thisButton.status != true && (thisButton.key != 32 || sCONTROLS[0].status == true)){
+    if(thisButton.status != true && (thisButton.key != 32 || sCONTROLS[0].status == false)){
       // activate and send keypress when this button isn't known as being pressed
-      // not allowed to stage while LL is false
+      // not allowed to stage while LL is on/true
       
       bCONTROLS[index].status = true;
       
