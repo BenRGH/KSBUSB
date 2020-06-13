@@ -17,11 +17,11 @@ typedef struct sCONTROL sCONTROLRecord;
 const int numberOfSwitches = 6;
 sCONTROLRecord sCONTROLS[numberOfSwitches] = {
   {false, 2, 0},   // Launch Lock - NO KEY, TRUE PREVENTS STAGE
-  {false, 3, 115}, // SAS
+  {false, 3, 116}, // SAS
   {false, 4, 114}, // RCS
   {false, 5, 98},  // Breaks
   {false, 6, 103}, // Gear
-  {false, 7, 108}, // Lights
+  {false, 7, 117}, // Lights
 };
 
 // Buttons
